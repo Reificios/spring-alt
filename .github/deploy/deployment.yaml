@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: phoonum-sl-dev
+  name: spring-alt-deployment
+  labels:
+    app: spring-alt
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: spring-alt
+  template:
+    metadata:
+      labels: 
+        app: spring-alt
+        deployment: spring-alt
+    spec:
+      containers:
+      - name: spring-alt
+        image: phoonumsl/spring-alt:latest
+        ports:
+          - containerPort: 8080
+            protocol: TCP
+strategy:
+  type: Rolling
+  rollingParams:
+    timeoutSeconds: 600
+    updatePeriodSeconds: 1
+    intervalSeconds: 1
+    maxSurge: 25%
+    maxUnavailable: 25%
+  triggers:
+    - type: ConfigChange
+paused: false

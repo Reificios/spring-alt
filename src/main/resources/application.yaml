@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: spring-alt
+
+logging:
+  pattern:
+    correlation: "[${spring.application.name:},%X{traceId:-},%X{spanId:-}] "
+  include-application-name: false
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+  zipkin:
+    tracing:
+      endpoint: http://zipkin.istio-system.svc.cluster.local:9411/api/v2/spans
